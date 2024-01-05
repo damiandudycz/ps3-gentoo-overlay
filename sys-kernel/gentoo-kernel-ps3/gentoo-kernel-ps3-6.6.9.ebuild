@@ -110,6 +110,10 @@ pkg_postinst() {
 		$vmlinux_path_prefix="/boot"
 	fi
 	kboot_entry="Gentoo-Kernel-${PV}='/vmlinux-${PV}-ppc64 initrd=/initramfs-${PV}-ppc64.img root=${root_partition} video=ps3fb:mode:133 rhgb'"
-	sed -i "1i $kboot_entry" "${kboot_path}"
+	if [ -f "${kboot_path}" ]; then
+		sed -i "1i ${kboot_entry}" "${kboot_path}"
+	else
+		echo "${kboot_entry}" >> "${kboot_path}"
+	fi
 	elog "KBOOT entry added to ${kboot_path}"
 }
