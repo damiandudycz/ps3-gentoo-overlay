@@ -86,7 +86,8 @@ src_prepare() {
 	kernel-build_merge_configs "${merge_configs[@]}"
 }
 
-pkg_postinst() {
+# TODO: Call this function after installation.
+setup_kboot_entry() {
 	# Update KBOOT entry:
 
 	# Find root and boot partition
