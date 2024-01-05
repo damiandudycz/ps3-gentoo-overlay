@@ -86,8 +86,10 @@ src_prepare() {
 	kernel-build_merge_configs "${merge_configs[@]}"
 }
 
-# TODO: Call this function after installation.
-setup_kboot_entry() {
+pkg_postinst() {
+	# Call linux-mod_pkg_postinst to handle module installation and other tasks
+	linux-mod_pkg_postinst
+
 	# Update KBOOT entry:
 
 	# Find root and boot partition
@@ -103,18 +105,17 @@ setup_kboot_entry() {
 		kboot_path="/boot/kboot.conf"
 	fi
 	if [ -z "$root_partition" ]; then
-		ewarn "Skipping kboot configuration, because root partition was not detected."
+		ewarn "Skipping kboot configuration, because the root partition was not detected."
 		ewarn "Please configure it manually."
 	fi
-	# If there is no seperate /boot partition, boot entry needs /boot prefix/
+	# If there is no separate /boot partition, the boot entry needs /boot prefix/
 	if [ -z "$boot_partition" ]; then
-		$vmlinux_path_prefix="/boot"
+		vmlinux_path_prefix="/boot"
 	fi
-	kboot_entry="Gentoo-Kernel-${PV}='/vmlinux-${PV}-ppc64 initrd=/initramfs-${PV}-ppc64.img root=${root_partition} video=ps3fb:mode:133 rhgb'"
+	kboot_entry="Gentoo-Kernel-${PV}='${vmlinux_path_prefix}/vmlinux-${PV}-ppc64 initrd=${vmlinux_path_prefix}/initramfs-${PV}-ppc64.img root=${root_partition} video=ps3fb:mode:133 rhgb'"
 	if [ -f "${kboot_path}" ]; then
 		sed -i "1i ${kboot_entry}" "${kboot_path}"
 	else
 		echo "${kboot_entry}" >> "${kboot_path}"
-	fi
-	elog "KBOOT entry added to ${kboot_path}"
+	fi	elog "KBOOT entry added to ${kboot_path}"
 }
