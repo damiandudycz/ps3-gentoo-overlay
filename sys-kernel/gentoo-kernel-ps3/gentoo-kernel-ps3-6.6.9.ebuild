@@ -117,5 +117,6 @@ pkg_postinst() {
 		sed -i "1i ${kboot_entry}" "${kboot_path}"
 	else
 		echo "${kboot_entry}" >> "${kboot_path}"
-	fi	elog "KBOOT entry added to ${kboot_path}"
+	fi
+        elog "KBOOT entry added to ${kboot_path}"
 }
