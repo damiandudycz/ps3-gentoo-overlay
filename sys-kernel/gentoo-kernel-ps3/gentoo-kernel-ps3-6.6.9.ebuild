@@ -86,7 +86,7 @@ src_prepare() {
 	kernel-build_merge_configs "${merge_configs[@]}"
 }
 
-pkg_postinst_TOFIX() {
+pkg_postinst() {
 	# Call linux-mod_pkg_postinst to handle module installation and other tasks
 	kernel-build_pkg_postinst
 
