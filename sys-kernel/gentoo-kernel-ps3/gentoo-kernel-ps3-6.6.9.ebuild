@@ -88,7 +88,7 @@ src_prepare() {
 
 pkg_postinst() {
 	# Call linux-mod_pkg_postinst to handle module installation and other tasks
-	linux-mod_pkg_postinst
+	kernel-build_pkg_postinst
 
 	# Update KBOOT entry:
 
