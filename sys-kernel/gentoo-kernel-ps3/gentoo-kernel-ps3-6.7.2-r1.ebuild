@@ -12,7 +12,6 @@ MY_P=linux-${PV%.*}
 GENPATCHES_P=genpatches-${PV%.*}-$(( ${PV##*.} + 3 ))
 # https://koji.fedoraproject.org/koji/packageinfo?packageID=8
 # forked to https://github.com/projg2/fedora-kernel-config-for-gentoo
-CONFIG_VER=6.7.2-gentoo
 GENTOO_CONFIG_VER=g11
 
 DESCRIPTION="Linux kernel built with Gentoo patches and PS3 patches"
@@ -30,14 +29,9 @@ SRC_URI+="
 "
 S=${WORKDIR}/${MY_P}
 
-KEYWORDS="~amd64 ~arm ~arm64 ~hppa ~loong ~ppc ~ppc64 ~riscv ~sparc ~x86"
+KEYWORDS="~ppc64"
 IUSE="debug hardened"
-REQUIRED_USE="
-	arm? ( savedconfig )
-	hppa? ( savedconfig )
-	riscv? ( savedconfig )
-	sparc? ( savedconfig )
-"
+REQUIRED_USE=""
 
 RDEPEND="
 	!sys-kernel/gentoo-kernel-bin:${SLOT}
@@ -55,7 +49,6 @@ QA_FLAGS_IGNORED="
 
 src_prepare() {
 	local PATCHES=(
-		# meh, genpatches have no directory
 		"${WORKDIR}"/*.patch
 		"${WORKDIR}/ps3_patches"/*.patch
 	)
@@ -93,11 +86,12 @@ src_prepare() {
 }
 
 pkg_postinst() {
+       # Install kernel files.
        kernel-build_pkg_postinst
 
        # Update KBOOT entry:
 
-       # Find root and boot partition
+       # Find root and boot partition.
        root_partition=$(awk '!/^[[:space:]]*#/ && $2 == "/" {print $1}' /etc/fstab)
        boot_partition=$(awk '!/^[[:space:]]*#/ && $2 == "/boot" {print $1}' /etc/fstab)
 
@@ -113,7 +107,7 @@ pkg_postinst() {
                ewarn "Skipping kboot configuration, because root partition was not detected."
                ewarn "Please configure it manually."
        fi
-       # If there is no seperate /boot partition, boot entry needs /boot prefix/
+       # If there is no seperate /boot partition, boot entry needs /boot prefix/.
        if [ -z "$boot_partition" ]; then
                $vmlinux_path_prefix="/boot"
        fi
