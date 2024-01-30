@@ -12,7 +12,7 @@ MY_P=linux-${PV%.*}
 GENPATCHES_P=genpatches-${PV%.*}-$(( ${PV##*.} + 3 ))
 # https://koji.fedoraproject.org/koji/packageinfo?packageID=8
 # forked to https://github.com/projg2/fedora-kernel-config-for-gentoo
-CONFIG_VER=6.7.0-gentoo
+CONFIG_VER=6.7.2-gentoo
 GENTOO_CONFIG_VER=g11
 
 DESCRIPTION="Linux kernel built with Gentoo patches and PS3 patches"
@@ -56,6 +56,7 @@ QA_FLAGS_IGNORED="
 src_prepare() {
 	local PATCHES=(
 		# meh, genpatches have no directory
+		"${WORKDIR}"/*.patch
 		"${WORKDIR}/ps3_patches"/*.patch
 	)
 	default
