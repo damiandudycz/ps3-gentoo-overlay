@@ -93,7 +93,7 @@ src_prepare() {
 }
 
 pkg_postinst() {
-       linux-mod_pkg_postinst
+       kernel-build_pkg_postinst
 
        # Update KBOOT entry:
 
@@ -117,7 +117,7 @@ pkg_postinst() {
        if [ -z "$boot_partition" ]; then
                $vmlinux_path_prefix="/boot"
        fi
-       kboot_entry="Gentoo-Kernel-${PV}='/vmlinux-${PV}-gentoo-ps3-dist initrd=/initramfs-${PV}-gentoo-ps3-dist.img root=${root_partition} video=ps3fb:mode:133 rhgb'"
+	kboot_entry="Gentoo-Kernel-${PV}='${vmlinux_path_prefix}/vmlinux-${PV}-gentoo-ps3-dist initrd=${vmlinux_path_prefix}/initramfs-${PV}-gentoo-ps3-dist.img root=${root_partition} video=ps3fb:mode:133 rhgb'"
        if [ -f "${kboot_path}" ]; then
                sed -i "1i ${kboot_entry}" "${kboot_path}"
        else
