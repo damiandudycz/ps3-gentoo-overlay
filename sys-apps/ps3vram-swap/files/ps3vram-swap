@@ -1,7 +1,7 @@
 #!/sbin/openrc-run
 
 start() {
-    ebegin "Starting ps3vram"
+    ebegin "Starting ps3vram-swap"
     if ! swapon -s | grep -q '/dev/ps3vram'; then
         wipefs -a /dev/ps3vram > /dev/null
         mkswap /dev/ps3vram > /dev/null
@@ -11,7 +11,7 @@ start() {
 }
 
 stop() {
-    ebegin "Stopping ps3vram"
+    ebegin "Stopping ps3vram-swap"
     if swapon -s | grep -q '/dev/ps3vram'; then
         swapoff /dev/ps3vram > /dev/null
     fi
