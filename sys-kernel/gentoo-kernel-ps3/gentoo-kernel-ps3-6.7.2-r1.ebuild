@@ -25,7 +25,7 @@ SRC_URI+="
 	https://dev.gentoo.org/~mpagano/dist/genpatches/${GENPATCHES_P}.extras.tar.xz
 	https://github.com/projg2/gentoo-kernel-config/archive/${GENTOO_CONFIG_VER}.tar.gz
 		-> gentoo-kernel-config-${GENTOO_CONFIG_VER}.tar.gz
-	https://raw.githubusercontent.com/damiandudycz/ps3-gentoo-overlay.distfiles/main/sys-kernel/gentoo-kernel-ps3/gentoo-kernel-ps3-files-${PV}.tar.xz
+	https://raw.githubusercontent.com/damiandudycz/ps3-gentoo-overlay.distfiles/main/sys-kernel/gentoo-kernel-ps3/gentoo-kernel-ps3-files-${PVR}.tar.xz
 "
 S=${WORKDIR}/${MY_P}
 
