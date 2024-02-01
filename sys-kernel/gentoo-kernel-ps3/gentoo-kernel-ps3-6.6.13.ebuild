@@ -58,7 +58,7 @@ src_prepare() {
 
 	cp "${WORKDIR}/ps3_gentoo_defconfig" .config || die
 
-	local myversion="-gentoo-dist"
+	local myversion="-gentoo-ps3-dist"
 	use hardened && myversion+="-hardened"
 	echo "CONFIG_LOCALVERSION=\"${myversion}\"" > "${T}"/version.config || die
 	local dist_conf_path="${WORKDIR}/gentoo-kernel-config-${GENTOO_CONFIG_VER}"
