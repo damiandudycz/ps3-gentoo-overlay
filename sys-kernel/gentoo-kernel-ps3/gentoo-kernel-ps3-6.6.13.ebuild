@@ -30,7 +30,7 @@ SRC_URI+="
 "
 S=${WORKDIR}/${MY_P}
 
-KEYWORDS="ppc64"
+KEYWORDS="amd64 ~arm arm64 ~hppa ~loong ~ppc ppc64 ~riscv ~sparc x86"
 IUSE="debug hardened"
 REQUIRED_USE=""
 
