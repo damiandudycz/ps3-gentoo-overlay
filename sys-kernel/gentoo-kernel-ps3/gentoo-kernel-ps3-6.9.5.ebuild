@@ -121,3 +121,34 @@ pkg_postinst() {
 	fi
 	elog "KBOOT entry added to ${kboot_path}"
 }
+
+pkg_prerm() {
+	# Find root and boot partition
+	root_partition=$(awk '!/^[[:space:]]*#/ && $2 == "/" {print $1}' /etc/fstab)
+	boot_partition=$(awk '!/^[[:space:]]*#/ && $2 == "/boot" {print $1}' /etc/fstab)
+
+	if [ ! -z "$root_partition" ]; then
+		einfo "Root partition detected: $root_partition."
+		kboot_path="/etc/kboot.conf"
+	fi
+	if [ ! -z "$boot_partition" ]; then
+		einfo "Boot partition detected: $boot_partition."
+		kboot_path="/boot/kboot.conf"
+	fi
+	if [ -z "$root_partition" ]; then
+		ewarn "Skipping kboot configuration, because the root partition was not detected."
+		ewarn "Please configure it manually."
+	fi
+	# If there is no separate /boot partition, the boot entry needs /boot prefix/
+	if [ -z "$boot_partition" ]; then
+		vmlinux_path_prefix="/boot"
+	fi
+	kboot_entry="Gentoo-Kernel-${PV}='${vmlinux_path_prefix}/vmlinux-${PV}-gentoo-ps3-dist root=${root_partition} video=ps3fb:mode:133 rhgb quiet'"
+
+	if [ -f "${kboot_path}" ]; then
+		sed -i "\|${kboot_entry}|d" "${kboot_path}"
+		elog "KBOOT entry removed from ${kboot_path}"
+	else
+		ewarn "KBOOT configuration file not found: ${kboot_path}"
+	fi
+}
