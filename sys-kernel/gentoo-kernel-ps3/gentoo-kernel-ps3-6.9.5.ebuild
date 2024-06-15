@@ -115,7 +115,7 @@ pkg_postinst() {
 	fi
 	kboot_entry="Gentoo-Kernel-${PV}='${vmlinux_path_prefix}/vmlinux-${PV}-gentoo-ps3-dist root=${root_partition} video=ps3fb:mode:133 rhgb'"
 	if [ -f "${kboot_path}" ]; then
-		sed -i "1i ${kboot_entry}" "${kboot_path}"
+		grep -qxF "${kboot_entry}" "${kboot_path}" 2>/dev/null || sed -i "1i ${kboot_entry}" "${kboot_path}"
 	else
 		echo "${kboot_entry}" >> "${kboot_path}"
 	fi
