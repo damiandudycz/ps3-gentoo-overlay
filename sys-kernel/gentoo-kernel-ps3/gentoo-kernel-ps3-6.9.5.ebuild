@@ -113,7 +113,7 @@ pkg_postinst() {
 	if [ -z "$boot_partition" ]; then
 		vmlinux_path_prefix="/boot"
 	fi
-	kboot_entry="Gentoo-Kernel-${PV}='${vmlinux_path_prefix}/vmlinux-${PV}-gentoo-ps3-dist root=${root_partition} video=ps3fb:mode:133 rhgb'"
+	kboot_entry="Gentoo-Kernel-${PV}='${vmlinux_path_prefix}/vmlinux-${PV}-gentoo-ps3-dist root=${root_partition} video=ps3fb:mode:133'"
 	if [ -f "${kboot_path}" ]; then
 		grep -qxF "${kboot_entry}" "${kboot_path}" 2>/dev/null || sed -i "1i ${kboot_entry}" "${kboot_path}"
 	else
@@ -143,7 +143,7 @@ pkg_prerm() {
 	if [ -z "$boot_partition" ]; then
 		vmlinux_path_prefix="/boot"
 	fi
-	kboot_entry="Gentoo-Kernel-${PV}='${vmlinux_path_prefix}/vmlinux-${PV}-gentoo-ps3-dist root=${root_partition} video=ps3fb:mode:133 rhgb quiet'"
+	kboot_entry="Gentoo-Kernel-${PV}='${vmlinux_path_prefix}/vmlinux-${PV}-gentoo-ps3-dist root=${root_partition} video=ps3fb:mode:133'"
 
 	if [ -f "${kboot_path}" ]; then
 		sed -i "\|${kboot_entry}|d" "${kboot_path}"
