@@ -2,7 +2,7 @@
 
 start() {
     ebegin "Starting ps3gpu"
-    if ! -e /dev/ps3gpu_vram; then
+    if [ ! -e /dev/ps3gpu_vram ]; then
         module="ps3fb"
         major=$(awk "\$2==\"$module\" {print \$1}" /proc/devices)
         mknod /dev/ps3gpu_vram    c ${major} 0
@@ -16,7 +16,7 @@ start() {
 
 stop() {
     ebegin "Stopping ps3gpu"
-    if -e /dev/ps3gpu_vram; then
+    if [ -e /dev/ps3gpu_vram ]; then
         rm /dev/ps3gpu_vram
         rm /dev/ps3gpu_fifo
         rm /dev/ps3gpu_ctrl
